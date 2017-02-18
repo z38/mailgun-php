@@ -67,23 +67,23 @@ class Routes extends HttpApi
     /**
      * Creates a new Route.
      *
-     * @param string $expression  A filter expression like "match_recipient('.*@gmail.com')"
+     * @param string $filter      A filter expression like "match_recipient('.*@gmail.com')"
      * @param array  $actions     Route action. This action is executed when the expression evaluates to True. Example: "forward('alice@example.com')"
      * @param string $description An arbitrary string
      * @param int    $priority    Integer: smaller number indicates higher priority. Higher priority routes are handled first. Defaults to 0.
      *
      * @return CreateResponse
      */
-    public function create($expression, array $actions, $description, $priority = 0)
+    public function create($filter, array $actions, $description, $priority = 0)
     {
-        Assert::string($expression);
+        Assert::string($filter);
         Assert::isArray($actions);
         Assert::string($description);
         Assert::integer($priority);
 
         $params = [
             'priority' => $priority,
-            'expression' => $expression,
+            'expression' => $filter,
             'action' => $actions,
             'description' => $description,
         ];
@@ -98,25 +98,25 @@ class Routes extends HttpApi
      * This API call only updates the specified fields leaving others unchanged.
      *
      * @param string      $routeId     Route ID returned by the Routes::index() method
-     * @param string|null $expression  A filter expression like "match_recipient('.*@gmail.com')"
+     * @param string|null $filter      A filter expression like "match_recipient('.*@gmail.com')"
      * @param array|null  $actions     Route action. This action is executed when the expression evaluates to True. Example: "forward('alice@example.com')"
      * @param string|null $description An arbitrary string
      * @param int|null    $priority    Integer: smaller number indicates higher priority. Higher priority routes are handled first. Defaults to 0.
      *
      * @return UpdateResponse
      */
-    public function update($routeId, $expression = null, array $actions = [], $description = null, $priority = null)
+    public function update($routeId, $filter = null, array $actions = [], $description = null, $priority = null)
     {
         Assert::stringNotEmpty($routeId);
-        Assert::nullOrString($expression);
+        Assert::nullOrString($filter);
         Assert::isArray($actions);
         Assert::nullOrString($description);
         Assert::nullOrInteger($priority);
 
         $params = [];
 
-        if (!empty($expression)) {
-            $params['expression'] = trim($expression);
+        if (!empty($filter)) {
+            $params['expression'] = trim($filter);
         }
 
         foreach ($actions as $action) {

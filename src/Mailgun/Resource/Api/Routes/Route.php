@@ -68,16 +68,16 @@ final class Route
      *
      * @param string    $id
      * @param int       $priority
-     * @param string    $expression
+     * @param string    $filter
      * @param array     $actions
      * @param string    $description
      * @param \DateTime $createdAt
      */
-    private function __construct($id, $priority, $expression, $actions, $description, \DateTime $createdAt = null)
+    private function __construct($id, $priority, $filter, $actions, $description, \DateTime $createdAt = null)
     {
         $this->id = $id;
         $this->priority = $priority;
-        $this->filter = $expression;
+        $this->filter = $filter;
         $this->actions = Action::createMultiple($actions);
         $this->description = $description;
         $this->createdAt = $createdAt;
